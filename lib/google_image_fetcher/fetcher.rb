@@ -2,7 +2,7 @@ require "uri"
 module GoogleImageFetcher
   class Fetcher
     class << self
-      def search_url(query)
+      def search_url(query, page)
         api_key = ENV["GOOGLE_API_KEY"]
         engine_id = ENV["SEARCH_ENGINE_ID"]
         params = {
@@ -11,6 +11,7 @@ module GoogleImageFetcher
           "q" => query,
           "searchType" => "image"
         }
+        params["start"] = page * 10 + 1 if page > 0
         url = "https://www.googleapis.com/customsearch/v1?#{URI.encode_www_form(params)}"
       end
 
